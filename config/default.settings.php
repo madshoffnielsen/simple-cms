@@ -6,3 +6,5 @@ $config['database'] = array(
   'db_user' => 'user',
   'user_pw' => '',
 );
+
+require_once('initialize.php');

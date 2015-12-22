@@ -23,10 +23,24 @@ class DatabaseHandler {
     return $this;
   }
 
-  public function getAll($type) {
-    // TODO check safe input
-    $query = $this->dbh->query("SELECT * FROM $type");
-    $query->execute();
-    return $query->fetchAll();
+  public function addField($table, $var_type) {
+    $sql ="CREATE table $table(
+      ID INT(11) AUTO_INCREMENT PRIMARY KEY,
+      CID INT(11) NOT NULL,
+      Value $var_type);";
+    $this->dbh->exec($sql);
   }
+
+  public function tableExists($table) {
+    try {
+        $result = $this->dbh->query("SELECT 1 FROM $table LIMIT 1");
+    } catch (Exception $e) {
+        // We got an exception == table not found
+        return FALSE;
+    }
+
+    // Result is either boolean FALSE (no table found) or PDOStatement Object (table found)
+    return $result !== FALSE;
+  }
+
 }

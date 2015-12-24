@@ -8,23 +8,25 @@ class StorageInterface {
     $this->intf = $dbh->getDBConnection();
   }
 
+  public function getDBversion() {
+    return $this->intf->DBversion();
+  }
+
   public function cmsInstalled() {
-    if (!$this->intf->tableExists('System')) {
-      print 'Simple-CMS is not installed please visit install.php to setup system.';
-      die;
+    if (!$this->intf->tableExists('system')) {
+      return 'Simple-CMS is not installed please visit <a href="install.php">install page</a> to setup system.';
     }
+    return FALSE;
   }
 
   public function install() {
+    $table_name = 'system';
+    $columns = array(
+      'Variable VARCHAR(256) PRIMARY KEY',
+      'Value VARCHAR(256) NOT NULL DEFAULT 0',
+      'Version VARCHAR(256) NOT NULL DEFAULT 0',
+    );
 
-  }
-
-  public function addField($type, $variable, $var_type) {
-    $table = $type . '_' . $variable;
-    if ($this->intf->tableExists($table)) {
-      return 'Variable machine name already exists';
-    }
-
-    $this->intf->addField($table, $var_type);
+    $this->intf->addTable($table_name, $columns);
   }
 }

@@ -23,11 +23,13 @@ class DatabaseHandler {
     return $this;
   }
 
-  public function addField($table, $var_type) {
-    $sql ="CREATE table $table(
-      ID INT(11) AUTO_INCREMENT PRIMARY KEY,
-      CID INT(11) NOT NULL,
-      Value $var_type);";
+  public function DBversion() {
+    return $this->dbh->query('select version()')->fetchColumn();
+  }
+
+  public function addTable($table_name, array $columns) {
+    $sql = "CREATE TABLE $table_name";
+    $sql .= '(' . implode(', ', $columns) . ');"';
     $this->dbh->exec($sql);
   }
 

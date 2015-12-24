@@ -26,7 +26,6 @@ class StorageInterface {
       'Value VARCHAR(256) NOT NULL DEFAULT 0',
       'Version VARCHAR(256) NOT NULL DEFAULT 0',
     );
-
     $this->intf->addTable($table_name, $columns);
   }
 }

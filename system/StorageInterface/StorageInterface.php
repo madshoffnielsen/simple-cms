@@ -20,11 +20,31 @@ class StorageInterface {
   }
 
   public function install() {
+    include(dirname(dirname(__DIR__)) . '/config/variables.php');
+    // Setup system variables table
     $table_name = 'system';
     $columns = array(
-      'Variable VARCHAR(256) PRIMARY KEY',
-      'Value VARCHAR(256) NOT NULL DEFAULT 0',
-      'Version VARCHAR(256) NOT NULL DEFAULT 0',
+      'variable VARCHAR(256) PRIMARY KEY',
+      'active BOOLEAN NOT NULL',
+      'version VARCHAR(256) NOT NULL DEFAULT 0',
+    );
+    $this->intf->addTable($table_name, $columns);
+
+    // Insert current system version
+    $variables = array(
+      'variable' => 'nucleus',
+      'active' => '1',
+      'version' => $version,
+    );
+    $this->intf->addVariable($table_name, $variables);
+
+    // Setup content types table
+    $table_name = 'content_types';
+    $columns = array(
+      'ctid INT(11) AUTO_INCREMENT PRIMARY KEY',
+      'name VARCHAR(256) NOT NULL',
+      'description VARCHAR(256) NOT NULL',
+      'fields BLOB NOT NULL',
     );
     $this->intf->addTable($table_name, $columns);
   }

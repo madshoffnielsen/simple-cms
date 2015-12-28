@@ -28,9 +28,17 @@ class DatabaseHandler {
   }
 
   public function addTable($table_name, array $columns) {
-    $sql = "CREATE TABLE $table_name";
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name";
     $sql .= '(' . implode(', ', $columns) . ');"';
     $this->dbh->exec($sql);
+  }
+
+  public function addVariable($table_name, array $variables) {
+    $column = implode(",", array_keys($variables));
+    $value = "'" . implode("','", array_values($variables)) . "'";
+
+    $sql = "INSERT INTO $table_name($column) VALUES ($value)";
+    $this->dbh->query($sql);
   }
 
   public function tableExists($table) {

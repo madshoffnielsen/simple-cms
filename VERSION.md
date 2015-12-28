@@ -1,3 +1,8 @@
+0.1a-build-26
+------------------------
+  - Rethink update process
+  - Fix to fit new update process
+
 0.1a-build-22
 ------------------------
   - Refine install process

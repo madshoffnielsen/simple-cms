@@ -8,3 +8,4 @@ $config['database'] = array(
 );
 
 require_once('initialize.php');
+require_once('variables.php');

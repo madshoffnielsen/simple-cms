@@ -1,3 +1,9 @@
+0.1a-build-22
+------------------------
+  - Refine install process
+  - Implement update process
+  - Get and update variables in database
+
 0.1a-build-18
 ------------------------
   - Update documentation

@@ -45,10 +45,10 @@ class DatabaseHandler {
     $col = key($identifier);
     $val = $identifier[$col];
 
-    $sql = "UPDATE $table_name SET version=version+1";
+    $sql = "UPDATE $table_name SET ";
 
     foreach ($values as $key => $value) {
-      $sql .= ", $key='$value'";
+      $sql .= "$key='$value',";
     }
 
     $sql .= " WHERE $col = '$val'";
@@ -61,7 +61,7 @@ class DatabaseHandler {
 
     $sql = "SELECT * FROM $table_name WHERE $col = '$val'";
     $stmt = $this->dbh->query($sql);
-    return $stmt->fetch(PDO::FETCH_ASSOC)['version'];
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
   public function tableExists($table) {

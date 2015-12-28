@@ -41,6 +41,29 @@ class DatabaseHandler {
     $this->dbh->query($sql);
   }
 
+  public function updateVariable($table_name, array $identifier, array $values) {
+    $col = key($identifier);
+    $val = $identifier[$col];
+
+    $sql = "UPDATE $table_name SET version=version+1";
+
+    foreach ($values as $key => $value) {
+      $sql .= ", $key='$value'";
+    }
+
+    $sql .= " WHERE $col = '$val'";
+    return $this->dbh->exec($sql);
+  }
+
+  public function getVariable($table_name, array $identifier) {
+    $col = key($identifier);
+    $val = $identifier[$col];
+
+    $sql = "SELECT * FROM $table_name WHERE $col = '$val'";
+    $stmt = $this->dbh->query($sql);
+    return $stmt->fetch(PDO::FETCH_ASSOC)['version'];
+  }
+
   public function tableExists($table) {
     try {
         $result = $this->dbh->query("SELECT 1 FROM $table LIMIT 1");

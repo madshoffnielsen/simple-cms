@@ -26,7 +26,8 @@ class StorageInterface {
     $columns = array(
       'variable VARCHAR(256) PRIMARY KEY',
       'active BOOLEAN NOT NULL',
-      'version VARCHAR(256) NOT NULL DEFAULT 0',
+      'version INT(11) NOT NULL DEFAULT 0',
+      'value VARCHAR(256) NOT NULL DEFAULT 0',
     );
     $this->intf->addTable($table_name, $columns);
 
@@ -34,7 +35,8 @@ class StorageInterface {
     $variables = array(
       'variable' => 'nucleus',
       'active' => '1',
-      'version' => $version,
+      'version' => '0',
+      'value' => $version,
     );
     $this->intf->addVariable($table_name, $variables);
 
@@ -47,5 +49,13 @@ class StorageInterface {
       'fields BLOB NOT NULL',
     );
     $this->intf->addTable($table_name, $columns);
+  }
+
+  public function currentSystemVersion(array $variable) {
+    return $this->intf->getVariable('system', $variable);
+  }
+
+  public function updateSystemVersion(array $identifier, array $values) {
+    return $this->intf->updateVariable('system', $identifier, $values);
   }
 }
